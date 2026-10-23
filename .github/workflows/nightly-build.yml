@@ -14,6 +14,9 @@ jobs:
         contents: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install Repo Tool
         run: |
           sudo mkdir -p /usr/local/bin
@@ -37,6 +40,10 @@ jobs:
       - name: Overlay achievements branch
         run: |
           rsync -a --exclude='.git' --exclude='NocturnalRTOS' ./ NocturnalRTOS/
+          test -f NocturnalRTOS/components/applications/apps-phobos/source/phobos/achievements/phobos_achievements.c
+          grep -q 'source "rcheevos/Kconfig"' NocturnalRTOS/components/Kconfig
+          rm -rf NocturnalRTOS/output
+          rm -f NocturnalRTOS/*.asd
 
       - name: Extract Commit Details
         id: commit_info
