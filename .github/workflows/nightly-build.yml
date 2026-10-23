@@ -34,6 +34,10 @@ jobs:
           repo init -u https://github.com/Data-Frog-Central/NocturnalRTOS-Manifest
           repo sync -c --no-clone-bundle --optimized-fetch --prune -j$(nproc)
 
+      - name: Overlay achievements branch
+        run: |
+          rsync -a --exclude='.git' --exclude='NocturnalRTOS' ./ NocturnalRTOS/
+
       - name: Extract Commit Details
         id: commit_info
         run: |
