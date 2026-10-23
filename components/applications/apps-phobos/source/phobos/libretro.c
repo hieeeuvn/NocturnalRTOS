@@ -17,6 +17,7 @@
 #include "../drivers/sf2000_audio.h"
 #include "../drivers/sf2000_gfx.h"
 #include "../drivers/sf2000_joypad.h"
+#include "achievements/phobos_achievements.h"
 #include "file_functions.h"
 #include "phobos.h"
 
@@ -462,6 +463,14 @@ bool run_emulator(const char *game_path, const char *core_path, int load_state) 
 	ret = load_game(game_path);
 	if (!ret) goto cleanup_retro;
 	load_srm(0);
+	/*
+	 * Core memory is valid from retro_load_game onwards. Achievements are
+	 * optional: an unmapped core or a missing cache only changes the state,
+	 * playback continues.
+	 */
+	phobos_achievements_set_memory_access(retro_get_memory_data,
+		retro_get_memory_size);
+	phobos_achievements_begin(core_path, game_path);
 
 	retro_get_system_av_info(&av_info);
     audio_init(temp_audio_device, av_info.timing.sample_rate);
@@ -504,8 +513,14 @@ bool run_emulator(const char *game_path, const char *core_path, int load_state) 
             int occupancy = get_audio_occupancy();
             core_frameskip(should_frameskip(frames_behind, occupancy));
 
-            for (int i = 0; i < steps; i++) retro_run();
-        } else retro_run();
+            for (int i = 0; i < steps; i++) {
+                retro_run();
+                phobos_achievements_frame();
+            }
+        } else {
+            retro_run();
+            phobos_achievements_frame();
+        }
 
         next_frame_us += frame_time_us_int;
         now_us = get_time_us();
@@ -519,6 +534,7 @@ bool run_emulator(const char *game_path, const char *core_path, int load_state) 
 
 	cleanup:
    		save_srm(0);
+    	phobos_achievements_end();
     	retro_unload_game();
 		audio_deinit();
 

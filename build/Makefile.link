@@ -121,6 +121,7 @@ LIBAIRCAST_FILES=$(patsubst lib%.a, -l%, $(notdir $(wildcard $(PREBUILT_DIR)/usr
 LIBUSBMIRROR_FILES=$(patsubst lib%.a, -l%, $(notdir $(wildcard $(PREBUILT_DIR)/usr/lib/libusbmirror.a $(PREBUILT_DIR)/usr/lib/libusbmirror_fake.a)))
 
 ldlibs-$(BR2_PACKAGE_LIBRETRO_COMMON) += -lretro-common
+ldlibs-$(BR2_PACKAGE_RCHEEVOS) += -lrcheevos
 ldlibs-$(BR2_PACKAGE_ARGENT_LOADER) += -largent_loader
 ldlibs-$(BR2_PACKAGE_LIBUSB) += -lusb
 ldlibs-$(BR2_PACKAGE_LIBOPENSSL) += -lssl -lcrypto

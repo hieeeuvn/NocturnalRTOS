@@ -8,6 +8,7 @@
 #include <retro_miscellaneous.h>
 #include "sf2000_joypad.h"
 #include "../phobos/phobos.h"
+#include "../phobos/achievements/phobos_achievements.h"
 
 #undef ARRAY_SIZE
 
@@ -70,8 +71,14 @@ bool hotkey_exit(void) {
 	return false; // Needed because a bool is expected
 }
 
+static bool hotkey_achievements(void) {
+	phobos_achievements_toggle_overlay();
+	return false;
+}
+
 static const hotkey_entry_t hotkeys[] = {
     { HOTKEY_EXIT_MASK, hotkey_exit },
+    { HOTKEY_ACHIEVEMENTS_MASK, hotkey_achievements },
 };
 
 void joypad_init(const char *device_name) {

@@ -1,0 +1,11 @@
+config BR2_PACKAGE_RCHEEVOS
+	bool "rcheevos"
+	help
+	  RetroAchievements runtime library.
+
+	  Provides the achievement parser, per-frame trigger runtime, console
+	  memory mapping and ROM hashing used by the offline achievements
+	  support in Phobos. The runtime is built without networking, Lua or
+	  threading because the handheld has no network stack.
+
+	  https://github.com/RetroAchievements/rcheevos

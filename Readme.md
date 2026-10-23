@@ -37,6 +37,8 @@ If you want to help with NocturnalRTOS you can reach out to me (Trademarked69) o
 https://cloud.maschath.de/s/PKfPaHS4qsqewEk  
 **General information about the device:**  
 https://vonmillhausen.github.io/sf2000/  
+**RetroAchievements (offline support in Phobos):**  
+[documentation/retroachievements.md](documentation/retroachievements.md)
 
 ### Other Projects:  
 

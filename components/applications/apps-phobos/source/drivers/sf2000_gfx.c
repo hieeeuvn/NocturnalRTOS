@@ -23,6 +23,7 @@
 
 #include "sf2000_gfx.h"
 #include "../phobos/phobos.h"
+#include "../phobos/achievements/phobos_achievements.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -512,6 +513,20 @@ void frontend_video_cb(const void *data, unsigned width, unsigned height, size_t
     }
     if (!data) return;
     if (show_fps_counter) update_fps_counter(data, width, height, pitch, enable_xrgb8888_support);
+    /*
+     * The achievements overlay is painted into the core frame before the
+     * blit, like the FPS counter, so it follows the scaling mode. The buffer
+     * is owned by the core and only valid until the next retro_run().
+     */
+    if (phobos_achievements_overlay_visible() || phobos_achievements_toast()) {
+        struct phobos_achievements_surface overlay;
+        overlay.pixels = (void *)data;
+        overlay.width = width;
+        overlay.height = height;
+        overlay.pitch = pitch;
+        overlay.rgb32 = enable_xrgb8888_support;
+        phobos_achievements_draw_overlay(&overlay);
+    }
     blit_to_screen(data, width, height, pitch, enable_xrgb8888_support, global_scaling_mode);
 }
 
