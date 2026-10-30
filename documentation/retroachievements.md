@@ -59,6 +59,11 @@ built at all; only the parser, runtime, memory mapping and hash helpers are.
 
 Node 18 or newer is the only requirement; there are no npm dependencies.
 
+If you would rather not use a command line, `tools/ra-sync-gui/` builds the
+same sync as a Windows executable and an Android APK. They read and write the
+identical files, so either client can service a card the other one wrote;
+see [tools/ra-sync-gui/README.md](../tools/ra-sync-gui/README.md).
+
 ## In-game UI
 
 Phobos has no pause menu. Achievements therefore use two overlays drawn on top
